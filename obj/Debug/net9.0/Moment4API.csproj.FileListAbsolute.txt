@@ -143,3 +143,4 @@ C:\Users\Admin\dt191g\Moment4API\obj\Debug\net9.0\refint\Moment4API.dll
 C:\Users\Admin\dt191g\Moment4API\obj\Debug\net9.0\Moment4API.pdb
 C:\Users\Admin\dt191g\Moment4API\obj\Debug\net9.0\Moment4API.genruntimeconfig.cache
 C:\Users\Admin\dt191g\Moment4API\obj\Debug\net9.0\ref\Moment4API.dll
+C:\Users\Admin\dt191g\Moment4API\obj\Debug\net9.0\Moment4API.sourcelink.json
