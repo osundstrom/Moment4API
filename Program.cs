@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//Dbcontext och sqlite som databas
 builder.Services.AddDbContext<SongDb>(options => 
     options.UseSqlite("Data Source = SongDb.db")
 );
@@ -11,23 +12,26 @@ var app = builder.Build();
 //Routes, standard vid bara /
 app.MapGet("/" , ()  => "Välkommen till musik API!");
 
-//Get
+//Get vid /songs
 app.MapGet("/songs" , async(SongDb songDb) => {
-    var songs = await songDb.Songs.ToListAsync();
-    return Results.Ok(songs);
+    var songs = await songDb.Songs.ToListAsync(); //sätter songs till alla låtar
+    return Results.Ok(songs); //returnerar all låtar
 });
 
-//Get specifik låt med id
+//Get specifik låt med id vid songs/id
 app.MapGet("/songs/{id}", async(int id, SongDb songDb) => {
-   var thisSong = await songDb.Songs.FindAsync(id)
-    is Song song ? Results.Ok(song)
-    :
-    Results.NotFound("ID finns ej");
-    return Results.Ok(thisSong);
+   var thisSong = await songDb.Songs.FindAsync(id);
+
+     if (thisSong != null) {
+        return Results.Ok(thisSong);
+    }else {
+        return Results.NotFound("ID finns ej");
+    };
+
 });
 
 
-//Post 
+//Post vid /songs
 app.MapPost("/songs", async(Song song, SongDb songDb) => {
 
     songDb.Songs.Add(song);
@@ -45,7 +49,7 @@ app.MapDelete("/songs/{id}", async(int id, SongDb songDb) => {
         await songDb.SaveChangesAsync();
 
     }else {
-        Results.NotFound("ID finns ej");
+       return Results.NotFound("ID finns ej");
     }
 
     return Results.Ok("Raderad");
