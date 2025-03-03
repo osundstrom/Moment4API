@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,8 +53,22 @@ app.MapDelete("/songs/{id}", async(int id, SongDb songDb) => {
 });
 
 //Put
-app.MapPut("/songs/{id}", async(int id, SongDb songDb) => {
+app.MapPut("/songs/{id}", async(int id, Song newSong, SongDb songDb) => {
+    var thisSong = await songDb.Songs.FindAsync(id);
 
+    if (thisSong != null) {
+        thisSong.artist = newSong.artist;
+        thisSong.title = newSong.title;
+        thisSong.length = newSong.length;
+        thisSong.category = newSong.category;
+
+        await songDb.SaveChangesAsync();
+
+    }else {
+        return Results.NotFound("ID finns ej");
+    }
+
+    return Results.Ok(new { Message = "Uppdaterad:", Song = newSong });
 });
 
 
