@@ -20,12 +20,12 @@ app.MapGet("/songs" , async(SongDb songDb) => {
 
 //Get specifik låt med id vid songs/id
 app.MapGet("/songs/{id}", async(int id, SongDb songDb) => {
-   var thisSong = await songDb.Songs.FindAsync(id);
+   var thisSong = await songDb.Songs.FindAsync(id); //hittar baserat på id
 
      if (thisSong != null) {
-        return Results.Ok(thisSong);
+        return Results.Ok(thisSong); //om låten finns 
     }else {
-        return Results.NotFound("ID finns ej");
+        return Results.NotFound("ID finns ej"); //om id ej finns
     };
 
 });
@@ -34,51 +34,42 @@ app.MapGet("/songs/{id}", async(int id, SongDb songDb) => {
 //Post vid /songs
 app.MapPost("/songs", async(Song song, SongDb songDb) => {
 
-    songDb.Songs.Add(song);
-    await songDb.SaveChangesAsync();
+    songDb.Songs.Add(song); //läggert ill i db
+    await songDb.SaveChangesAsync(); //sparar
 
-    return Results.Created("Tillagd:", song);
+    return Results.Created("Tillagd:", song); //returnerar
 });
 
-//Delete
+//Delete via id
 app.MapDelete("/songs/{id}", async(int id, SongDb songDb) => {
-    var thisSong = await songDb.Songs.FindAsync(id);
+    var thisSong = await songDb.Songs.FindAsync(id); //hittar baserat på id
     
-    if (thisSong != null) {
-        songDb.Songs.Remove(thisSong);
-        await songDb.SaveChangesAsync();
-
+    if (thisSong != null) { 
+        songDb.Songs.Remove(thisSong); //tar bort om låt finns
+        await songDb.SaveChangesAsync(); //sparar
+        return Results.Ok("Raderad"); //returnerar 
     }else {
-       return Results.NotFound("ID finns ej");
+       return Results.NotFound("ID finns ej"); //om ej hittas
     }
-
-    return Results.Ok("Raderad");
-
 });
 
 //Put
 app.MapPut("/songs/{id}", async(int id, Song newSong, SongDb songDb) => {
-    var thisSong = await songDb.Songs.FindAsync(id);
+    var thisSong = await songDb.Songs.FindAsync(id); //hittar baserat på id
 
-    if (thisSong != null) {
+    if (thisSong != null) { //om låten skild fårn null, så byter vi gamla mot nya inmatade
         thisSong.artist = newSong.artist;
         thisSong.title = newSong.title;
         thisSong.length = newSong.length;
         thisSong.category = newSong.category;
 
-        await songDb.SaveChangesAsync();
-
+        await songDb.SaveChangesAsync();//sparar
+        return Results.Ok(new { Message = "Uppdaterad:", Song = newSong }); //returnerar 
     }else {
-        return Results.NotFound("ID finns ej");
+        return Results.NotFound("ID finns ej"); //om ej hittas
     }
 
-    return Results.Ok(new { Message = "Uppdaterad:", Song = newSong });
 });
-
-
-
-
-
 
 
 //starta
@@ -100,5 +91,6 @@ public class SongDb : DbContext {
     public SongDb(DbContextOptions<SongDb> options)
     : base(options) { }
 
-    public DbSet<Song> Songs => Set<Song>();
+    //dbSet
+    public DbSet<Song> Songs => Set<Song>(); 
 }
