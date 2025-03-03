@@ -17,23 +17,23 @@ namespace Moment4API.Migrations
 
             modelBuilder.Entity("Song", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Artist")
+                    b.Property<string>("artist")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Category")
+                    b.Property<string>("category")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Length")
+                    b.Property<int>("length")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Titel")
+                    b.Property<string>("title")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
                     b.ToTable("Songs");
                 });
