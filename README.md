@@ -20,8 +20,8 @@ I databasen finns det en Tabell som ser ut enligt nedan.
 | ---- | -------------- | ---------- | 
 | GET   | /songs   | Hämtar alla låtar  | 
 | POST   | /songs    | Skapar en ny låt   | 
-| PUT   | /songs:id    | Ändrar  baserat på id| 
-| DELETE   | /songs:id    | Raderar baserat på id | 
+| PUT   | /songs/id    | Ändrar  baserat på id| 
+| DELETE   | /songs/id    | Raderar baserat på id | 
 
 
 
